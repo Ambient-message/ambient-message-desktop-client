@@ -1,6 +1,6 @@
 {
-  "name": "ambient-message-desktop-client",
-  "productName": "ambient-message-desktop-client",
+  "name": "ambient-message",
+  "productName": "ambient-message",
   "version": "1.0.0",
   "description": "My Electron application description",
   "main": ".webpack/main",
@@ -13,8 +13,8 @@
   },
   "keywords": [],
   "author": {
-    "name": "yuzukianzu",
-    "email": "yuzukianzu02@gmail.com"
+    "name": "ambient-group .inc",
+    "email": "ambient-message@gmail.com"
   },
   "license": "MIT",
   "devDependencies": {
