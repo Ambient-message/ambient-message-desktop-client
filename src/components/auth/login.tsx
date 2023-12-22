@@ -18,24 +18,25 @@ export const Login: React.FC = () => {
         // Предотвращаем обычное поведение формы (перезагрузку страницы)
         event.preventDefault();
     
-        // Ваши логика обработки данных
-        console.log('Submitted:', { username, password });
-    
-        // Вместо console.log можно отправить данные на сервер, например, с использованием fetch
-        // fetch('https://example.com/api/login', {
-        //   method: 'POST',
-        //   headers: {
-        //     'Content-Type': 'application/json',
-        //   },
-        //   body: JSON.stringify({ username, password }),
-        // })
-        //   .then(response => response.json())
-        //   .then(data => {
-        //     console.log('Server response:', data);
-        //   })
-        //   .catch(error => {
-        //     console.error('Error:', error);
-        //   });
+
+        const body = JSON.stringify({ username, password })
+
+        console.log(body)
+
+        fetch('http://127.0.0.1:8888/auth', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: body,
+        })
+          .then(response => response.text())
+          .then(data => {
+            console.log('Server response:', data);
+          })
+          .catch(error => {
+            console.error('Error:', error);
+          });
       };
 
 
