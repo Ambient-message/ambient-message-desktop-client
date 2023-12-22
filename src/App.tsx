@@ -1,11 +1,18 @@
-import { useState } from 'react'
 import './App.css'
+import { BrowserRouter as Router, Route, Routes, BrowserRouter } from 'react-router-dom';
+
+import {Login} from './components/auth/login';
+import React from 'react';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <h1>dsfsdf</h1>
+    <React.StrictMode>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<Login />}></Route>
+        </Routes>
+      </BrowserRouter>
+    </React.StrictMode>
   )
 }
 
