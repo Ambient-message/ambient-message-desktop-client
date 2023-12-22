@@ -68,12 +68,6 @@ export const Login: React.FC = () => {
                 </div>
 
                 <br></br>
-                
-                <div className='remember-me-block'>
-                    <input type="checkbox"></input>
-                    <p className='remember-me'>Remember me</p>
-                </div>
-
                 <br></br>
 
                 <button id="login">Login</button>
