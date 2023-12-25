@@ -12,7 +12,6 @@ const VITE_DEV_SERVER_URL = process.env['VITE_DEV_SERVER_URL']
 
 function createWindow() {
   win = new BrowserWindow({
-    icon: 'src/assets/app-icon.png',
     width: 1260,
     height: 800,
     webPreferences: {
