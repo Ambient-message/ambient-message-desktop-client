@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 import Button from "../../components/ui/button";
+
 
 
 export const Login: React.FC = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
-    let isLoading = false;
 
     const navigate = useNavigate();
 
@@ -25,7 +25,6 @@ export const Login: React.FC = () => {
 
         const body = JSON.stringify({ username, password })
 
-        isLoading = true;
 
         fetch('http://127.0.0.1:8888/auth', {
             method: 'POST',
@@ -107,7 +106,7 @@ export const Login: React.FC = () => {
                                 <path clipPath="url(#b)" fill="#34A853" d="M0 37l30-23 7.9 1L48 0v48H0z" />
                                 <path clipPath="url(#b)" fill="#4285F4" d="M48 48L17 24l-4-3 35-10z" />
                             </svg>
-                            <span className="ml-4">Log in with Google</span>
+                            <button onClick={} className="ml-4">Log in with Google</button>
                         </div>
                     </button>
 

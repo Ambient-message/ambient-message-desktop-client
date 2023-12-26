@@ -1,6 +1,7 @@
 import { app, BrowserWindow, Menu } from 'electron'
 import path from 'node:path'
 import log from 'electron-log/main';
+import ElectronGoogleOAuth2 from '@getstation/electron-google-oauth2';
 
 process.env.DIST = path.join(__dirname, '../dist')
 process.env.VITE_PUBLIC = app.isPackaged ? process.env.DIST : path.join(process.env.DIST, '../public')
@@ -52,6 +53,19 @@ app.on('activate', () => {
     createWindow()
   }
 })
+
+app.on('ready', () => {
+  const myApiOauth = new ElectronGoogleOAuth2(
+    'CLIENT_ID',
+    'CLIENT_SECRET',
+    ['https://www.googleapis.com/auth/drive.metadata.readonly']
+  );
+
+  myApiOauth.openAuthWindowAndGetTokens()
+    .then(token => {
+      alert(token.access_token)
+    });
+});
 
 
 log.initialize({ preload: true });
