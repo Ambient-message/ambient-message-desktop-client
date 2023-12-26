@@ -37,7 +37,7 @@ export const Home: React.FC = () => {
                             <ul role='list' className='flex flex-1 flex-col gap-y-7'>
                                 <li className='cursor-pointer'>
                                     <div className='flex items-center gap-x-4 px-6 py-3'>
-                                        <div className='relative rounded-full h-10 w-10 bg-blue-500'>
+                                        <div className='relative rounded-full h-10 w-10 bg-black'>
                                         </div>
                                         <div className='flex flex-col'>
                                             <span aria-hidden='true'>Chat Name</span>
@@ -49,10 +49,10 @@ export const Home: React.FC = () => {
                                 </li>
                             </ul>
                         </nav>
-                        <li className='-mx-6 mt-auto flex items-center'>
+
+                        <li className='-mx-6 mt-auto flex items-center my-1'>
                             <div className='flex flex-1 items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-gray-900'>
-                                <div className='relative rounded-3xl h-10 w-10 bg-slate-200'>
-                                    <span className='absolute bottom-0 right-0 bg-green-500 border-2 border-white rounded-full w-3 h-3'></span> 
+                                <div className='relative rounded-3xl h-10 w-10 bg-black'>
                                 </div>
 
                                 <span className='sr-only'>Your profile</span>
