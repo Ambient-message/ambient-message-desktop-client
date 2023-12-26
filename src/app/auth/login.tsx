@@ -1,45 +1,46 @@
-// import React, { useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
-// import Button from '../../components/ui/button';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import Button from "../../components/ui/button";
 
 
 export const Login: React.FC = () => {
-    // const [username, setUsername] = useState('');
-    // const [password, setPassword] = useState('');
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
 
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
 
-    // const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setUsername(event.target.value);
-    // };
+    const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setUsername(event.target.value);
+    };
 
-    // const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setPassword(event.target.value);
-    // };
+    const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setPassword(event.target.value);
+    };
 
-    // const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    //     event.preventDefault();
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
 
-    //     const body = JSON.stringify({ username, password })
+        // const body = JSON.stringify({ username, password })
 
-    //     fetch('http://127.0.0.1:8888/auth', {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //         },
-    //         body: body,
-    //     })
-    //         .then(response => response.text())
-    //         .then(data => {
-    //             console.log('Server response:', data);
-    //             navigate('/home')
-    //         })
-    //         .catch(error => {
-    //             console.error('Error:', error);
-    //         });
-    // };
+        navigate('/home')
+
+        // fetch('http://127.0.0.1:8888/auth', {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //     },
+        //     body: body,
+        // })
+        //     .then(response => response.text())
+        //     .then(data => {
+        //         console.log('Server response:', data);
+        //         navigate('/home')
+        //     })
+        //     .catch(error => {
+        //         console.error('Error:', error);
+        //     });
+    };
 
 
     return (
@@ -55,21 +56,21 @@ export const Login: React.FC = () => {
                     {/* <img
                     src="./src/assets/images/logo.png" 
                     alt="Logo"
-                    className="w-16 h-16 mb-4 mx-auto"
+                    className="w-15 h-15 m-auto mx-auto"
                     /> */}
 
-                    <h1 className="text-xl md:text-2xl font-bold leading-tight mt-12">Log in to your account</h1>
+                    {/* <h1 className="text-xl md:text-2xl font-bold leading-tight mt-12">Log in to your account</h1> */}
 
-                    <form className="mt-6" action="#" method="POST">
+                    <form className="mt-6" onSubmit={handleSubmit} action="#" method="POST">
                         <div>
                             <label className="block text-gray-700">Username</label>
-                            <input type="text" name="" id="" placeholder="Enter Username"
+                            <input value={username} onChange={handleUsernameChange} type="text" name="" id="" placeholder="Enter Username"
                                 className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-black focus:bg-white focus:outline-none"></input>
                         </div>
 
                         <div className="mt-4">
                             <label className="block text-gray-700">Password</label>
-                            <input type="password" name="" id="" placeholder="Enter Password" className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-black
+                            <input value={password} onChange={handlePasswordChange}  type="password" name="" id="" placeholder="Enter Password" className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-black
                       focus:bg-white focus:outline-none" required></input>
                         </div>
 
@@ -103,9 +104,9 @@ export const Login: React.FC = () => {
                         </div>
                     </button>
 
-                    <p className="mt-8">
+                    <p className="mt-10">
                         Need an account?
-                        <a href="#" className="text-black underline mr-5 font-semibold">
+                        <a href="#" className="text-black underline mx-1 font-semibold">
                             Create an account
                         </a>
                     </p>
