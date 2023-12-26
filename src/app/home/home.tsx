@@ -33,39 +33,33 @@ export const Home: React.FC = () => {
 
                 <nav className='flex flex-1 flex-col'>
                     <ul role='list' className='flex flex-1 flex-col gap-y-7'>
-                        {/* <li>
-                            //chats
-                        </li> */}
                         <nav className='flex flex-1 flex-col'>
                             <ul role='list' className='flex flex-1 flex-col gap-y-7'>
-                                {/* Sample chat item */}
                                 <li className='cursor-pointer'>
                                     <div className='flex items-center gap-x-4 px-6 py-3'>
                                         <div className='relative rounded-full h-10 w-10 bg-blue-500'>
-                                            {/* Add user avatar */}
                                         </div>
                                         <div className='flex flex-col'>
                                             <span aria-hidden='true'>Chat Name</span>
-                                            <span className='text-xs text-gray-500' aria-hidden='true'>
+                                            <span className='text-xs text-zinc-500' aria-hidden='true'>
                                                 Last message
                                             </span>
                                         </div>
                                     </div>
                                 </li>
-                                {/* Add more chat items as needed */}
                             </ul>
                         </nav>
                         <li className='-mx-6 mt-auto flex items-center'>
                             <div className='flex flex-1 items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-gray-900'>
-                                <div className='relative rounded-3xl h-10 w-10 bg-black'>
-
+                                <div className='relative rounded-3xl h-10 w-10 bg-slate-200'>
+                                    <span className='absolute bottom-0 right-0 bg-green-500 border-2 border-white rounded-full w-3 h-3'></span> 
                                 </div>
 
                                 <span className='sr-only'>Your profile</span>
                                 <div className='flex flex-col'>
                                     <span aria-hidden='true'>Name</span>
                                     <span className='text-xs text-zinc-400' aria-hidden='true'>
-                                        Email
+                                        @username
                                     </span>
                                 </div>
                             </div>
