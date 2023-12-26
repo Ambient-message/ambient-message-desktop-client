@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import Button from '../../components/ui/button';
 import { LogOut, Menu } from 'lucide-react'
 import { useNavigate } from 'react-router-dom';
@@ -13,7 +12,7 @@ export const Home: React.FC = () => {
 
             <div className='hidden md:flex h-full w-full max-w-xs grow flex-col gap-y-5 mr-auto overflow-y-auto border-r border-gray-200 bg-white px-6'>
 
-                <div className='flex items-center my-5'>
+                <div className='flex items-center my-2'>
                     <Button
                         variant='ghost'
                         className='w-15 h-15'

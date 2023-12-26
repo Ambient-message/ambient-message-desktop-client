@@ -21,9 +21,8 @@ export const Login: React.FC = () => {
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-
-        // const body = JSON.stringify({ username, password })
         navigate('/home')
+        // const body = JSON.stringify({ username, password })
 
         // fetch('http://127.0.0.1:8888/auth', {
         //     method: 'POST',

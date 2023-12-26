@@ -1,5 +1,6 @@
 import { app, BrowserWindow, Menu } from 'electron'
 import path from 'node:path'
+import installExtension, {REDUX_DEVTOOLS} from 'electron-devtools-installer'
 
 process.env.DIST = path.join(__dirname, '../dist')
 process.env.VITE_PUBLIC = app.isPackaged ? process.env.DIST : path.join(process.env.DIST, '../public')
@@ -23,7 +24,6 @@ function createWindow() {
   
   win.webContents.openDevTools()
   
-  // Test active push message to Renderer-process.
   win.webContents.on('did-finish-load', () => {
     win?.webContents.send('main-process-message', (new Date).toLocaleString())
   })
@@ -31,14 +31,10 @@ function createWindow() {
   if (VITE_DEV_SERVER_URL) {
     win.loadURL(VITE_DEV_SERVER_URL)
   } else {
-    // win.loadFile('dist/index.html')
     win.loadFile(path.join(process.env.DIST, 'index.html'))
   }
 }
 
-// Quit when all windows are closed, except on macOS. There, it's common
-// for applications and their menu bar to stay active until the user quits
-// explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
@@ -57,4 +53,12 @@ process.on('uncaughtException', (error) => {
   alert(error);
 });
 
-app.whenReady().then(createWindow)
+app.whenReady().then(() => {
+
+  [REDUX_DEVTOOLS].map((ext) =>{
+    installExtension(ext).then((name : string) => console.log(`Installed extension ${name}`))
+    .catch((error) => console.log(`An error has occured: ${error}`))
+  });
+
+  createWindow();
+})
