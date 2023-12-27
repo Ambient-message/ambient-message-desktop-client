@@ -1,9 +1,24 @@
 import Button from '../../components/ui/button';
 import { LogOut, Menu } from 'lucide-react'
 import { useNavigate } from 'react-router-dom';
+import { Chat } from '../chat/chat';
+import { useState } from 'react';
 
 
 export const Home: React.FC = () => {
+
+    const [selectedChat, setSelectedChat] = useState<string | null>(null);
+
+    const handleChatClick = (chatName: string) => {
+        // Set the selected chat
+        setSelectedChat(chatName);
+    };
+
+
+    const closeChat = () => {
+        // Close the chat
+        setSelectedChat(null);
+    };
 
     const navigate = useNavigate();
 
@@ -73,6 +88,7 @@ export const Home: React.FC = () => {
                     </ul>
                 </nav>
             </div>
+            <Chat/>
         </div>
     )
 }
