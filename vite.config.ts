@@ -4,6 +4,7 @@ import electron from 'vite-plugin-electron/simple'
 import react from '@vitejs/plugin-react'
 import tsconfigPaths from 'vite-tsconfig-paths'
 
+
 export default defineConfig({
   plugins: [
     react(),
@@ -16,6 +17,7 @@ export default defineConfig({
         input: path.join(__dirname, 'electron/preload.ts'),
       },
       renderer: {},
+      
     }),
   ],
 })
