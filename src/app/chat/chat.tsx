@@ -1,13 +1,7 @@
 import Button from "../../components/ui/button";
-import TextareaAutosize from 'react-textarea-autosize'
-import { FC, useRef, useState } from 'react'
 import { Paperclip, SendHorizonal } from "lucide-react";
 
 export const Chat: React.FC = () => {
-
-    const textareaRef = useRef<HTMLTextAreaElement | null>(null)
-    const [isLoading, setIsLoading] = useState<boolean>(false)
-    const [input, setInput] = useState<string>('')
 
     return (
         <div className='flex-1 justify-between flex flex-col h-full'>

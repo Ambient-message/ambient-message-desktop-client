@@ -11,20 +11,28 @@ const defaultState : UserState = {
 
 const userAuthenticationHandler = (state : UserState, action: PayloadAction<IApiUser>) => {
     
-    if(action?.payload){
+    if(!action?.payload){
         return state;
     }
 
-    const {user, token} = action.payload;
+    const {user: {username, password}, token} = action?.payload;
 
-    return update(state, {
-        currentUser : {
-            $set: user,
-        },
-        token : {
-            $set : token,
-        },
-    });
+    const newUser = {
+        username,
+        password
+    }
+
+    state.currentUser = newUser;
+    state.token = token;
+
+    // return update(state, {
+    //     currentUser : {
+    //         $set: newUser,
+    //     },
+    //     token : {
+    //         $set : token,
+    //     },
+    // });
 }
 
 

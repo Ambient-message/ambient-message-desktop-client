@@ -3,27 +3,33 @@ import { LogOut, Menu } from 'lucide-react'
 import { useNavigate } from 'react-router-dom';
 import { Chat } from '../chat/chat';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { getCurrentUser } from '../../selectors/users/get_user';
 
 
 export const Home: React.FC = () => {
 
-    const [selectedChat, setSelectedChat] = useState<string | null>(null);
+    const currentUser = useSelector(getCurrentUser)
 
-    const handleChatClick = (chatName: string) => {
-        // Set the selected chat
-        setSelectedChat(chatName);
-    };
+    // const [selectedChat, setSelectedChat] = useState<string | null>(null);
 
+    // const handleChatClick = (chatName: string) => {
+    //     setSelectedChat(chatName);
+    // };
 
-    const closeChat = () => {
-        // Close the chat
-        setSelectedChat(null);
-    };
+    // const closeChat = () => {
+    //     // Close the chat
+    //     setSelectedChat(null);
+    // };
 
     const navigate = useNavigate();
 
     return (
         <div className='w-full flex h-screen'>
+
+            <div>
+                
+            </div>
 
             <div className='hidden md:flex h-full w-full max-w-xs grow flex-col gap-y-5 mr-auto overflow-y-auto border-r border-gray-200 bg-white px-6'>
 
@@ -46,9 +52,9 @@ export const Home: React.FC = () => {
                 </div>
                 <div>
                     <nav className='flex flex-1 flex-col'>
-                        <ul role='list' className='flex flex-1 flex-col gap-y-7'>
+                        <ul role='list' className='flex flex-1 flex-col gap-y-7 hover:*:bg-gray-200'>
                             <li className='cursor-pointer'>
-                                <div className='flex items-center gap-x-4 px-6 py-3'>
+                                <div className='flex items-center gap-x-4 py-3'>
                                     <div className='relative rounded-full h-10 w-10 bg-black'>
                                     </div>
                                     <div className='flex flex-col'>
@@ -60,8 +66,6 @@ export const Home: React.FC = () => {
                     </nav>
                 </div>
 
-
-
                 <div className='text-xs font-semibold leading-6 text-gray-400'>
                     Your chats
                 </div>
@@ -69,12 +73,12 @@ export const Home: React.FC = () => {
                 <nav className='flex flex-1 flex-col'>
                     <ul role='list' className='flex flex-1 flex-col gap-y-7'>
                         <nav className='flex flex-1 flex-col'>
-                            <ul role='list' className='flex flex-1 flex-col gap-y-7'>
+                            <ul role='list' className='flex flex-1 flex-col gap-y-7 hover:*:bg-gray-200'>
                                 <li className='cursor-pointer'>
-                                    <div className='flex items-center gap-x-4 px-6 py-3'>
+                                    <div className='flex items-center gap-x-4 py-3 '>
                                         <div className='relative rounded-full h-10 w-10 bg-black'>
                                         </div>
-                                        <div className='flex flex-col'>
+                                        <div className='flex flex-col '>
                                             <span aria-hidden='true'>Chat Name</span>
                                             <span className='text-xs text-zinc-500' aria-hidden='true'>
                                                 Last message
@@ -85,27 +89,31 @@ export const Home: React.FC = () => {
                             </ul>
                         </nav>
 
-                        <li className='-mx-6 mt-auto flex items-center my-1'>
-                            <div className='flex flex-1 items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-gray-900'>
-                                <div className='relative rounded-3xl h-10 w-10 bg-black'>
+                        <nav>
+                            <li className='-mx-6 mt-auto flex items-center my-1'>
+                                <div className='flex flex-1 items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-gray-900'>
+                                    <div className='relative rounded-3xl h-10 w-10 bg-black'>
+                                    </div>
+
+                                    <span className='sr-only'>Your profile</span>
+                                    <div className='flex flex-col'>
+                                        <span aria-hidden='true'> {currentUser?.username}</span>
+                                        <span className='text-xs text-zinc-400' aria-hidden='true'>
+                                            {currentUser?.username}
+                                        </span>
+                                    </div>
                                 </div>
 
-                                <span className='sr-only'>Your profile</span>
-                                <div className='flex flex-col'>
-                                    <span aria-hidden='true'>Name</span>
-                                    <span className='text-xs text-zinc-400' aria-hidden='true'>
-                                        @username
-                                    </span>
-                                </div>
-                            </div>
+                                <Button variant='ghost' className='h-15 w-15 mx-5 aspect-square'>
+                                    <LogOut className='w-4 h-4' onClick={() => {
+                                        navigate('/')
+                                    }} />
+                                </Button>
 
-                            <Button variant='ghost' className='h-15 w-15 mx-5 aspect-square'>
-                                <LogOut className='w-4 h-4' onClick={() => {
-                                    navigate('/')
-                                }} />
-                            </Button>
+                            </li>
 
-                        </li>
+                        </nav>
+
                     </ul>
                 </nav>
             </div>

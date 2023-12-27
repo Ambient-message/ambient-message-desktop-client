@@ -18,8 +18,9 @@ export class State {
 
 
 export class UserState {
-    token : string | undefined;
-    currentUser: IUser | undefined;
+
+    token! : string;
+    currentUser?: IUser;
 }
 
 
