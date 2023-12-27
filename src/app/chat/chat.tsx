@@ -1,6 +1,7 @@
 import Button from "../../components/ui/button";
 import TextareaAutosize from 'react-textarea-autosize'
 import { FC, useRef, useState } from 'react'
+import { Paperclip, SendHorizonal } from "lucide-react";
 
 export const Chat: React.FC = () => {
 
@@ -25,13 +26,18 @@ export const Chat: React.FC = () => {
             <div className='flex-1 overflow-y-auto'>
             </div>
 
-            <div className='flex justify-stretch items-center p-3 border-t-2 border-gray-200'>
+            <div className='flex justify-stretch items-center p-3 border-t-2 border-gray-200 resize-x resize-y'>
+                <Button variant="ghost" className="w-15 h-15 ml-1 mr-2">
+                    <Paperclip className="w-5 h-5"></Paperclip>
+                </Button>
                 <input
                     type='text'
                     placeholder='Type your message...'
-                    className='flex-1 align-bottom h-full px-5 rounded-sm bg-gray-200 border focus:outline-none'
+                    className='flex-1 resize-y align-bottom h-11 px-5 rounded-lg bg-gray-200 border focus:outline-none'
                 />
-                <Button className="ml-2">Send</Button>
+                <Button variant="ghost" className="ml-2 w-15 h-15 ">
+                    <SendHorizonal className="w-5 h-5"></SendHorizonal>
+                </Button>
             </div>
 
         </div>

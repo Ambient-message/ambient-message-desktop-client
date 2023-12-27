@@ -41,6 +41,27 @@ export const Home: React.FC = () => {
                     />
                 </div>
 
+                <div className='text-xs font-semibold leading-5 text-gray-400'>
+                    Archived Chats
+                </div>
+                <div>
+                    <nav className='flex flex-1 flex-col'>
+                        <ul role='list' className='flex flex-1 flex-col gap-y-7'>
+                            <li className='cursor-pointer'>
+                                <div className='flex items-center gap-x-4 px-6 py-3'>
+                                    <div className='relative rounded-full h-10 w-10 bg-black'>
+                                    </div>
+                                    <div className='flex flex-col'>
+                                        <span aria-hidden='true'>Archived Chats</span>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+
+
+
                 <div className='text-xs font-semibold leading-6 text-gray-400'>
                     Your chats
                 </div>
@@ -88,7 +109,7 @@ export const Home: React.FC = () => {
                     </ul>
                 </nav>
             </div>
-            <Chat/>
+            <Chat />
         </div>
     )
 }
