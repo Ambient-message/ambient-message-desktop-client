@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from "../../components/ui/button";
+import { IUserAuthenticationPayload } from '../../interfaces';
+import { useDispatch } from 'react-redux';
+import { userAuthenticationCommand } from '../../commands/users/userAuthenticationCommand';
+import { AsyncDispatch } from '../../lib/redux';
 
 
 
@@ -19,28 +23,16 @@ export const Login: React.FC = () => {
         setPassword(event.target.value);
     };
 
+    const dispatch : AsyncDispatch = useDispatch()
+    
+    const attemptLoginUser = (payload: IUserAuthenticationPayload) => 
+    dispatch(userAuthenticationCommand(payload));
+
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        attemptLoginUser({username, password})
         navigate('/home')
-        // const body = JSON.stringify({ username, password })
-
-        // fetch('http://127.0.0.1:8888/auth', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //     },
-        //     body: body,
-        // })
-        //     .then(response => response.text())
-        //     .then(data => {
-        //         console.log('Server response:', data);
-        //         navigate('/home')
-        //     })
-        //     .catch(error => {
-        //         console.error('Error:', error);
-        //     });
     };
-
 
     return (
 

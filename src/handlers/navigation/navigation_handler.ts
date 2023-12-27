@@ -1,7 +1,7 @@
 import { ActionReducerMapBuilder, PayloadAction, createReducer } from "@reduxjs/toolkit";
-import { NavigationState, Pages } from "../objects/states";
+import { NavigationState, Pages } from "../../objects/states";
 import update from "immutability-helper"
-import { setActivePage } from "../actions/navigation/navigation";
+import { setActivePage } from "../../commands/navigation/navigation";
 
 const defaultState : NavigationState = {
     currentPage: Pages.Login

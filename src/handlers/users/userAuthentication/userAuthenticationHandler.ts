@@ -1,15 +1,15 @@
 import { ActionReducerMapBuilder, PayloadAction, createReducer } from "@reduxjs/toolkit";
-import { UserState } from "../objects/states";
-import { IApiUser } from "../interfaces";
+import { UserState } from "../../../objects/states";
+import { IApiUser } from "../../../interfaces";
 import update from "immutability-helper"
-import { loginUserAsync } from "../actions/users/login_user";
+import { userAuthenticationCommand } from "../../../commands/users/userAuthenticationCommand";
 
 const defaultState : UserState = {
     token: "",
     currentUser: undefined
 }
 
-const handleUserLoginAsync = (state : UserState, action: PayloadAction<IApiUser>) => {
+const userAuthenticationHandler = (state : UserState, action: PayloadAction<IApiUser>) => {
     
     if(action?.payload){
         return state;
@@ -29,7 +29,7 @@ const handleUserLoginAsync = (state : UserState, action: PayloadAction<IApiUser>
 
 
 const reducerBuilder = (builder : ActionReducerMapBuilder<UserState>) => {
-    builder.addCase(loginUserAsync.fulfilled, handleUserLoginAsync);
+    builder.addCase(userAuthenticationCommand.fulfilled.type, userAuthenticationHandler);
 };
 
 
