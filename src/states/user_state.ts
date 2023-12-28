@@ -1,11 +1,10 @@
 export class UserState {
     id : string | null;
-    username : string | null;
+    token : string | null;
 
     constructor(id : string | null, 
-        username : string | null) {
+        token : string | null) {
         this.id = id;
-        this.username = username;
+        this.token = token;
     }
-
 }

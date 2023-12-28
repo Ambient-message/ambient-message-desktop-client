@@ -20,7 +20,7 @@ export const Chat: React.FC = () => {
             <div className='flex-1 overflow-y-auto'>
             </div>
 
-            <div className='flex justify-stretch items-center p-3 border-t-2 border-gray-200 resize-x resize-y'>
+            <div className='flex justify-stretch items-center p-3 border-t-2 border-gray-200'>
                 <Button variant="ghost" className="w-15 h-15 ml-1 mr-2">
                     <Paperclip className="w-5 h-5"></Paperclip>
                 </Button>

@@ -1,0 +1,14 @@
+@keyframes slideIn {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 5rem;
+    }
+}
+
+
+.sidebar {
+    animation: slideIn 0.3s ease;
+}

@@ -1,5 +1,5 @@
-
 export class AuthState {
+    
     status: string | null;
     error : string | null;
 

@@ -1,47 +1,44 @@
 import Button from '../../components/ui/button';
-import { LogOut, Menu } from 'lucide-react'
+import { CircleUserRound, FolderPlus, LogOut, Menu, Settings, UsersRound } from 'lucide-react'
 import { useNavigate } from 'react-router-dom';
 import { Chat } from '../chat/chat';
-import { useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
-
+import { useState } from 'react';
 
 export const Home: React.FC = () => {
 
-    // const [selectedChat, setSelectedChat] = useState<string | null>(null);
-
-    // const handleChatClick = (chatName: string) => {
-    //     setSelectedChat(chatName);
-    // };
-
-    // const closeChat = () => {
-    //     // Close the chat
-    //     setSelectedChat(null);
-    // };
-
-    const dispatch = useAppDispatch();
-    const user_info = useAppSelector((state) => state.user);
-
-    // useEffect(() => {
-    //     if (basicUserInfo) {
-    //         dispatch(getUser(basicUserInfo.auth));
-    //     }
-    // }, [basicUserInfo]);
-
     const navigate = useNavigate();
+
+    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
+    const toggleSidebar = () => {
+        setIsSidebarOpen(!isSidebarOpen);
+    };
 
     return (
         <div className='w-full flex h-screen'>
 
-            <div>
+            {isSidebarOpen && (
+                <div className='flex flex-col border-gray-200 border-r bg-white w-20 sidebar'>
+                    <table className='m-auto mt-5'>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <Button className='mt-0' variant="ghost">
+                                        <Settings className='w-6 h-6' />
+                                    </Button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            )}
 
-            </div>
-
-            <div className='hidden md:flex h-full w-full max-w-xs grow flex-col gap-y-5 mr-auto overflow-y-auto border-r border-gray-200 bg-white px-6'>
+            <div className='hidden md:flex flex-grow h-full w-full max-w-xs flex-col gap-y-5 mr-auto overflow-y-auto border-r border-gray-200 bg-white px-6'>
 
                 <div className='flex items-center my-2'>
                     <Button
                         variant='ghost'
+                        onClick={toggleSidebar}
                         className='w-15 h-15'
                     >
                         <Menu className='w-5 h-5 m-auto' />
@@ -52,6 +49,7 @@ export const Home: React.FC = () => {
                         className='m-2 w-full h-10 px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:outline-none'
                     />
                 </div>
+
 
                 <div className='text-xs font-semibold leading-5 text-gray-400'>
                     Archived Chats
@@ -103,9 +101,9 @@ export const Home: React.FC = () => {
 
                                     <span className='sr-only'>Your profile</span>
                                     <div className='flex flex-col'>
-                                        <span aria-hidden='true'>{user_info.username}</span>
+                                        <span aria-hidden='true'>Test</span>
                                         <span className='text-xs text-zinc-400' aria-hidden='true'>
-                                            {user_info.username}
+                                            Test
                                         </span>
                                     </div>
                                 </div>
@@ -116,15 +114,14 @@ export const Home: React.FC = () => {
                                         navigate('/')
                                     }} />
                                 </Button>
-
                             </li>
-
                         </nav>
-
                     </ul>
                 </nav>
             </div>
             <Chat />
         </div>
+
+
     )
 }
