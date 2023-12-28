@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { cva, VariantProps } from 'class-variance-authority'
 import { Loader2 } from 'lucide-react'
-import { cn } from '../../lib/utils'
+import { cn } from '../../utils/cn_twMerge';
 
 export interface IButtonProps
     extends React.ButtonHTMLAttributes<HTMLButtonElement>,

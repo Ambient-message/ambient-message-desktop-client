@@ -2,14 +2,11 @@ import Button from '../../components/ui/button';
 import { LogOut, Menu } from 'lucide-react'
 import { useNavigate } from 'react-router-dom';
 import { Chat } from '../chat/chat';
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { getCurrentUser } from '../../selectors/users/get_user';
+import { useEffect, useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 
 
 export const Home: React.FC = () => {
-
-    const currentUser = useSelector(getCurrentUser)
 
     // const [selectedChat, setSelectedChat] = useState<string | null>(null);
 
@@ -22,13 +19,22 @@ export const Home: React.FC = () => {
     //     setSelectedChat(null);
     // };
 
+    const dispatch = useAppDispatch();
+    const user_info = useAppSelector((state) => state.user);
+
+    // useEffect(() => {
+    //     if (basicUserInfo) {
+    //         dispatch(getUser(basicUserInfo.auth));
+    //     }
+    // }, [basicUserInfo]);
+
     const navigate = useNavigate();
 
     return (
         <div className='w-full flex h-screen'>
 
             <div>
-                
+
             </div>
 
             <div className='hidden md:flex h-full w-full max-w-xs grow flex-col gap-y-5 mr-auto overflow-y-auto border-r border-gray-200 bg-white px-6'>
@@ -97,15 +103,16 @@ export const Home: React.FC = () => {
 
                                     <span className='sr-only'>Your profile</span>
                                     <div className='flex flex-col'>
-                                        <span aria-hidden='true'> {currentUser?.username}</span>
+                                        <span aria-hidden='true'>{user_info.username}</span>
                                         <span className='text-xs text-zinc-400' aria-hidden='true'>
-                                            {currentUser?.username}
+                                            {user_info.username}
                                         </span>
                                     </div>
                                 </div>
 
                                 <Button variant='ghost' className='h-15 w-15 mx-5 aspect-square'>
                                     <LogOut className='w-4 h-4' onClick={() => {
+                                        localStorage.setItem("userInfo", "");
                                         navigate('/')
                                     }} />
                                 </Button>

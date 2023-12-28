@@ -1,14 +1,15 @@
+import { configureStore } from "@reduxjs/toolkit";
+import userReducer from "../reducers/user";
+import authReducer from "../reducers/auth";
 
-import userReducer from "../handlers/users/userAuthentication/userAuthenticationHandler"
-import navReducer from "../handlers/navigation/navigation_handler"
-import { configureStore } from "@reduxjs/toolkit"
-
-const reducerMap = {
-    User : userReducer,
-    Navigation : navReducer,
-}
-
-
-export const store = configureStore({
-    reducer : reducerMap
+const store = configureStore({
+  reducer: {
+    auth: authReducer,
+    user: userReducer,
+  },
 });
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+
+export default store;

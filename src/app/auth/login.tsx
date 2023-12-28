@@ -1,18 +1,15 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from "../../components/ui/button";
-import { IUserAuthenticationPayload } from '../../interfaces';
-import { useDispatch } from 'react-redux';
-import { userAuthenticationCommand } from '../../commands/users/userAuthenticationCommand';
-import { AsyncDispatch } from '../../lib/redux';
-
-
+import { useAppDispatch } from '../../hooks/redux-hooks';
+import { loginUserAsync } from '../../actions/users/user_authentication';
 
 export const Login: React.FC = () => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
+    const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
     const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,16 +20,25 @@ export const Login: React.FC = () => {
         setPassword(event.target.value);
     };
 
-    const dispatch : AsyncDispatch = useDispatch()
-    
-    const attemptLoginUser = (payload: IUserAuthenticationPayload) => 
-    dispatch(userAuthenticationCommand(payload));
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        attemptLoginUser({username, password})
-        navigate('/home')
-    };
+        if (username && password) {
+          try {
+
+            await dispatch(
+              loginUserAsync({
+                username : username, 
+                password : password
+              })
+            ).unwrap();
+            navigate('/home')
+          } catch (e) {
+            console.error(e);
+          }
+        } else {
+        }
+      };
 
     return (
 
@@ -57,7 +63,7 @@ export const Login: React.FC = () => {
                         <h2 className="mt-2 font-medium">Login to your account</h2>
                     </div>
 
-                    <form className="mt-6" onSubmit={handleSubmit} action="#" method="POST">
+                    <form className="mt-6" onSubmit={handleLogin} action="#" method="POST">
                         <div>
                             <label htmlFor='username_input' className="block text-gray-700">Username</label>
                             <input value={username} onChange={handleUsernameChange} type="text" name="" id="username_input" placeholder="Enter Username"

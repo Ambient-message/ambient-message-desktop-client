@@ -17,7 +17,6 @@ export default defineConfig({
         input: path.join(__dirname, 'electron/preload.ts'),
       },
       renderer: {},
-      
     }),
   ],
 })

@@ -6,6 +6,8 @@ process.env.DIST = path.join(__dirname, '../dist')
 process.env.VITE_PUBLIC = app.isPackaged ? process.env.DIST : path.join(process.env.DIST, '../public')
 
 
+console.log(process.env.SERVER_URL)
+
 let win: BrowserWindow | null
 
 const VITE_DEV_SERVER_URL = process.env['VITE_DEV_SERVER_URL']
@@ -47,7 +49,6 @@ app.on('activate', () => {
     createWindow()
   }
 })
-
 
 process.on('uncaughtException', (error) => {
   alert(error);
