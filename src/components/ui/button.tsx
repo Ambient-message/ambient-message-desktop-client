@@ -34,8 +34,8 @@ export const buttonVariants = cva(
 
 const Button: FC<IButtonProps> = ({ className, children, variant, size, isLoading, ...props }) => {
     return <button className={cn(buttonVariants({ variant, size, className }))} disabled={isLoading} {...props}>
-        {isLoading ? <Loader2 className='mr-auto h-5 w-5 animate-spin'/> : null}
-        {children}
+        {isLoading ? <Loader2 className='m-auto flex h-5 w-5 animate-spin'/> : null}
+        {isLoading ? children = null : children}
     </button>
 }
 

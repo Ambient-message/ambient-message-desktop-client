@@ -1,16 +1,14 @@
 import { useState } from "react";
-import Button from "../../components/ui/button";
+import Button from "../../components/ui/Button";
 import { Paperclip, SendHorizonal, Smile } from "lucide-react";
 
 export const Chat: React.FC = () => {
-
 
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
     };
-
 
     return (
 
@@ -53,7 +51,7 @@ export const Chat: React.FC = () => {
             </div>
 
             {isSidebarOpen && (
-                <div className='flex flex-col border-gray-200 border-r bg-white w-20 sidebar'>
+                <div className='flex flex-col border-gray-200 border-r bg-white w-60 sidebar'>
 
                 </div>
             )}

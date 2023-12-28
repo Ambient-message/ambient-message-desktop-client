@@ -1,8 +1,12 @@
-import Button from '../../components/ui/button';
+import Button from '../../components/ui/Button';
 import { CircleUserRound, FolderPlus, LogOut, Menu, Settings, UsersRound } from 'lucide-react'
 import { useNavigate } from 'react-router-dom';
 import { Chat } from '../chat/chat';
 import { useState } from 'react';
+import { SidebarChatList } from '../../components/SidebarChatList';
+import { User } from '../../entities/user';
+import { useAppSelector } from '../../hooks/redux-hooks';
+import { v4 as uuidv4 } from 'uuid';
 
 export const Home: React.FC = () => {
 
@@ -13,6 +17,14 @@ export const Home: React.FC = () => {
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
     };
+
+    const users: User[] = [
+        { id: uuidv4().toString(), username: 'John Doe', password: 'qwefsdf' },
+        { id: uuidv4().toString(), username: 'Alex Toi', password: 'qwefsdf' },
+        { id: uuidv4().toString(), username: 'Vlad', password: 'qwefsdf' },
+        { id: uuidv4().toString(), username: 'James', password: 'qwefsdf' },
+    ];
+
 
     return (
         <div className='w-full flex h-screen'>
@@ -44,59 +56,17 @@ export const Home: React.FC = () => {
                         <Menu className='w-5 h-5 m-auto' />
                     </Button>
                     <input
-                        type='text'
+                        type='search'
                         placeholder='Search chats...'
                         className='m-2 w-full h-10 px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:outline-none'
                     />
                 </div>
 
-                <div>
-                    <div className='text-xs font-semibold ml-5 mb-5 text-gray-400'>
-                        Your chats
-                    </div>
-
-                    <nav className='flex flex-1 flex-col'>
-                        <ul role='list' className='flex flex-1 flex-col gap-y-7'>
-                            <nav className='flex flex-1 flex-col'>
-                                <ul role='list' className='flex flex-1 flex-col gap-y-7 hover:*:bg-gray-200'>
-                                    <li className='cursor-pointer'>
-                                        <div className='flex items-center gap-x-4 py-3 '>
-                                            <div className='relative rounded-full h-10 w-10 ml-5 bg-black'>
-                                            </div>
-                                            <div className='flex flex-col '>
-                                                <span aria-hidden='true'>Chat Name</span>
-                                                <span className='text-xs text-zinc-500' aria-hidden='true'>
-                                                    Last message
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </nav>
-
-                        </ul>
-                    </nav>
+                <div className='text-xs font-semibold ml-5 text-gray-400'>
+                    Your chats
                 </div>
-                <nav className='mt-auto mb-3'>
-                    <li className='flex items'>
-                        <div className='flex flex-1 gap-x-4 text-sm font-semibold leading-6 text-gray-900'>
-                            <div className='relative rounded-3xl h-10 w-10 ml-5 bg-black'></div>
 
-                            <span className='sr-only'>Your profile</span>
-                            <div className='flex flex-col'>
-                                <span aria-hidden='true'>Test</span>
-                                <span className='text-xs text-zinc-400' aria-hidden='true'>Test</span>
-                            </div>
-                        </div>
-
-                        <Button variant='ghost' className='h-15 w-15 mx-5 aspect-square'>
-                            <LogOut className='w-4 h-4' onClick={() => {
-                                localStorage.setItem("userInfo", "");
-                                navigate('/')
-                            }} />
-                        </Button>
-                    </li>
-                </nav>
+                <SidebarChatList users={users} />
             </div>
             <Chat />
         </div>

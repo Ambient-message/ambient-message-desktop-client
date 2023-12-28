@@ -1,6 +1,7 @@
 import { app, BrowserWindow, Menu } from 'electron'
 import path from 'node:path'
 import installExtension, {REDUX_DEVTOOLS} from 'electron-devtools-installer'
+import toast from 'react-hot-toast'
 
 process.env.DIST = path.join(__dirname, '../dist')
 process.env.VITE_PUBLIC = app.isPackaged ? process.env.DIST : path.join(process.env.DIST, '../public')
@@ -52,6 +53,7 @@ app.on('activate', () => {
 
 process.on('uncaughtException', (error) => {
   alert(error);
+  toast.error(`${error}`);
 });
 
 app.whenReady().then(() => {

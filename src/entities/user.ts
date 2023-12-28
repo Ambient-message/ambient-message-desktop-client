@@ -3,12 +3,12 @@ import { PhoneVisibility } from "../enums/phoneVisibility"
 export class User {
 
     id: string;
-    name: string;
+    name?: string;
     username : string;
     password : string;
     biography?: string
-    phone : string;
-    phone_visibility: PhoneVisibility;
+    phone? : string;
+    phone_visibility?: PhoneVisibility;
     
     constructor(
         id: string,

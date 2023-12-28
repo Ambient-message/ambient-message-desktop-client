@@ -1,11 +1,10 @@
 import './App.css'
 import { Route, Routes, BrowserRouter } from 'react-router-dom';
-import { Provider, useSelector } from 'react-redux';
+import { Provider } from 'react-redux';
 import { Login } from './app/auth/login';
 import React from 'react';
 import { Home } from './app/home/home';
 import store from './stores/store';
-import ProtectedLayout from './ProtectedLayout';
 
 function App() {
 
