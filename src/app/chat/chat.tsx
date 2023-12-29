@@ -4,7 +4,7 @@ import { Paperclip, SendHorizonal, Smile } from "lucide-react";
 
 export const Chat: React.FC = () => {
 
-    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
