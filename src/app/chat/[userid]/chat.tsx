@@ -1,8 +1,12 @@
 import { useState } from "react";
-import Button from "../../components/ui/Button";
+import Button from "../../../components/ui/Button";
 import { Paperclip, SendHorizonal, Smile } from "lucide-react";
 
-export const Chat: React.FC = () => {
+interface ChatProps {
+    userId : string,
+}
+
+export const Chat: React.FC<ChatProps> = ({userId}) => {
 
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -19,10 +23,10 @@ export const Chat: React.FC = () => {
                     <div className='flex flex-col leading-tight ml-5'>
                         <div className='flex items-center'>
                             <span className='text-gray-700 mr-3 font-bold'>
-                                {"name"}
+                                {userId}
                             </span>
                         </div>
-                        <span className='text-sm text-gray-600'>{"last seen 1 hour ago"}</span>
+                        {/* <span className='text-sm text-gray-600'>{"last seen 1 hour ago"}</span> */}
                     </div>
                 </div>
 

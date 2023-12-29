@@ -1,17 +1,16 @@
 import { FC, useState } from "react"
-import { Message } from "../entities/message"
 import { User } from "../entities/user"
-import { usePathname, useRouter } from 'next/navigation'
-import { chatHrefConstructor } from "../utils/chatHrefConstructor"
 import React from "react"
-
+import { chatHrefConstructor } from "../utils/chatHrefConstructor";
 
 interface SidebarChatListProps {
     users: User[],
-    searchTerm: string;
+    sessionId: string,
+    searchTerm: string,
+    onChatSelect: (userId: string) => void,
 }
 
-export const SidebarChatList: FC<SidebarChatListProps> = React.memo(({ users, searchTerm }) => {
+export const SidebarChatList: FC<SidebarChatListProps> = React.memo(({ sessionId, users, searchTerm, onChatSelect }) => {
     const [activeChats] = useState<User[]>(users)
 
     const filteredUsers = activeChats.filter((user) =>
@@ -28,13 +27,17 @@ export const SidebarChatList: FC<SidebarChatListProps> = React.memo(({ users, se
                                 <nav className='flex flex-1 flex-col'>
                                     <ul role='list' className='flex flex-1 flex-col gap-y-7 hover:*:bg-gray-200'>
                                         <li className='cursor-pointer'>
-                                            <div className='flex items-center gap-x-4 py-3 '>
+                                            <a href={`/chat/${chatHrefConstructor(
+                                                sessionId,
+                                                user.id
+                                            )}`} className='flex items-center gap-x-4 py-3'
+                                                onClick={() => onChatSelect(user.id)}>
                                                 <div className='relative rounded-full h-10 w-10 ml-5 bg-black'>
                                                 </div>
                                                 <div className='flex flex-col '>
                                                     <span aria-hidden='true'>{user.username}</span>
                                                 </div>
-                                            </div>
+                                            </a>
                                         </li>
                                     </ul>
                                 </nav>

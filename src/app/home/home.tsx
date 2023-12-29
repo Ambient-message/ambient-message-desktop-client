@@ -1,7 +1,7 @@
 import Button from '../../components/ui/Button';
 import { CircleUserRound, FolderPlus, LogOut, Menu, Settings, UsersRound } from 'lucide-react'
 import { useNavigate } from 'react-router-dom';
-import { Chat } from '../chat/chat';
+import { Chat } from '../chat/[userid]/chat';
 import { useState } from 'react';
 import { SidebarChatList } from '../../components/SidebarChatList';
 import { User } from '../../entities/user';
@@ -10,22 +10,33 @@ import { v4 as uuidv4 } from 'uuid';
 import SignOutButton from '../../components/SignOutButton';
 import SidebarMenu from '../../components/SidebarMenu';
 
-const users: User[] = [
-    { id: uuidv4().toString(), username: 'John Doe', password: 'qwefsdf' },
-    { id: uuidv4().toString(), username: 'Alex Toi', password: 'qwefsdf' },
-    { id: uuidv4().toString(), username: 'Vlad', password: 'qwefsdf' },
-    { id: uuidv4().toString(), username: 'James', password: 'qwefsdf' },
-    { id: uuidv4().toString(), username: 'John Doe', password: 'qwefsdf' },
-];
+
+
 export const Home: React.FC = () => {
 
     const user = useAppSelector((state) => state.user);
     const [searchTerm, setSearchTerm] = useState('');
+    const sessionId = useAppSelector((state) => state.user.id);
+
+    const users: User[] = [
+        { id: sessionId!, username: 'self', password: '12345' },
+        { id: uuidv4().toString(), username: 'Alex Toi', password: 'qwefsdf' },
+        { id: uuidv4().toString(), username: 'Vlad', password: 'qwefsdf' },
+        { id: uuidv4().toString(), username: 'James', password: 'qwefsdf' },
+        { id: uuidv4().toString(), username: 'John Doe', password: 'qwefsdf' },
+    ];
+
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
+    };
+
+    const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
+
+    const handleChatSelection = (userId: string) => {
+        setSelectedUserId(userId);
     };
 
     const menu = [
@@ -67,7 +78,7 @@ export const Home: React.FC = () => {
                         Your chats
                     </p>
 
-                    <SidebarChatList users={users} searchTerm={searchTerm} />
+                    <SidebarChatList sessionId={sessionId!} users={users} searchTerm={searchTerm} onChatSelect={handleChatSelection} />
                 </div>
 
                 <div className='flex mt-auto mb-5'>
@@ -82,6 +93,12 @@ export const Home: React.FC = () => {
                     <SignOutButton className='mr-5' />
                 </div>
             </div>
+
+            {selectedUserId ? (
+                <Chat userId={selectedUserId} />
+            
+            ) : null}
+
         </div>
 
 
