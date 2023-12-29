@@ -3,18 +3,24 @@ import { Message } from "../entities/message"
 import { User } from "../entities/user"
 import { usePathname, useRouter } from 'next/navigation'
 import { chatHrefConstructor } from "../utils/chatHrefConstructor"
+import React from "react"
 
 
 interface SidebarChatListProps {
     users: User[],
+    searchTerm: string;
 }
 
-export const SidebarChatList: FC<SidebarChatListProps> = ({ users }) => {
+export const SidebarChatList: FC<SidebarChatListProps> = React.memo(({ users, searchTerm }) => {
     const [activeChats] = useState<User[]>(users)
+
+    const filteredUsers = activeChats.filter((user) =>
+        user.username.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
     return (
         <ul role='list' className='flex flex-1 flex-col'>
-            {activeChats.sort().map((user) => {
+            {filteredUsers.sort().map((user) => {
                 return (
                     <li key={user.id}>
                         <div className='flex flex-1 flex-col'>
@@ -39,4 +45,4 @@ export const SidebarChatList: FC<SidebarChatListProps> = ({ users }) => {
             })}
         </ul>
     )
-}
+});

@@ -94,7 +94,9 @@ export const Login: React.FC = () => {
 
             <p className="mt-5">
               Need an account?
-              <a href="#" className="text-black underline mx-1 font-semibold">
+              <a href="#" onClick={() => {
+                toast.error('The function is not yet available.')
+              }} className="text-black underline mx-1 font-semibold">
                 Create an account
               </a>
             </p>

@@ -8,55 +8,38 @@ import { User } from '../../entities/user';
 import { useAppSelector } from '../../hooks/redux-hooks';
 import { v4 as uuidv4 } from 'uuid';
 import SignOutButton from '../../components/SignOutButton';
+import SidebarMenu from '../../components/SidebarMenu';
 
+const users: User[] = [
+    { id: uuidv4().toString(), username: 'John Doe', password: 'qwefsdf' },
+    { id: uuidv4().toString(), username: 'Alex Toi', password: 'qwefsdf' },
+    { id: uuidv4().toString(), username: 'Vlad', password: 'qwefsdf' },
+    { id: uuidv4().toString(), username: 'James', password: 'qwefsdf' },
+    { id: uuidv4().toString(), username: 'John Doe', password: 'qwefsdf' },
+];
 export const Home: React.FC = () => {
 
-    const navigate = useNavigate();
-
     const user = useAppSelector((state) => state.user);
+    const [searchTerm, setSearchTerm] = useState('');
 
-    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-    const toggleSidebar = () => {
-        setIsSidebarOpen(!isSidebarOpen);
+    const toggleMenu = () => {
+        setIsMenuOpen(!isMenuOpen);
     };
 
-    const users: User[] = [
-        { id: uuidv4().toString(), username: 'John Doe', password: 'qwefsdf' },
-        { id: uuidv4().toString(), username: 'Alex Toi', password: 'qwefsdf' },
-        { id: uuidv4().toString(), username: 'Vlad', password: 'qwefsdf' },
-        { id: uuidv4().toString(), username: 'James', password: 'qwefsdf' },
-        { id: uuidv4().toString(), username: 'John Doe', password: 'qwefsdf' },
-        { id: uuidv4().toString(), username: 'Alex Toi', password: 'qwefsdf' },
-        { id: uuidv4().toString(), username: 'Vlad', password: 'qwefsdf' },
-        { id: uuidv4().toString(), username: 'James', password: 'qwefsdf' },
-        { id: uuidv4().toString(), username: 'John Doe', password: 'qwefsdf' },
-        { id: uuidv4().toString(), username: 'Alex Toi', password: 'qwefsdf' },
-        { id: uuidv4().toString(), username: 'Vlad', password: 'qwefsdf' },
-        { id: uuidv4().toString(), username: 'James', password: 'qwefsdf' },
-        { id: uuidv4().toString(), username: 'John Doe', password: 'qwefsdf' },
-        { id: uuidv4().toString(), username: 'Alex Toi', password: 'qwefsdf' },
-        { id: uuidv4().toString(), username: 'Vlad', password: 'qwefsdf' },
-        { id: uuidv4().toString(), username: 'James', password: 'qwefsdf' },
-    ];
-
+    const menu = [
+        <Button className='mt-0' variant="ghost">
+            <Settings className='w-5 h-5' />
+        </Button>,
+    ]
 
     return (
         <div className='w-full flex h-screen'>
 
-            {isSidebarOpen && (
+            {isMenuOpen && (
                 <div className='flex flex-col border-gray-200 border-r bg-white w-20 sidebar'>
-                    <table className='m-auto mt-5'>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <Button className='mt-0' variant="ghost">
-                                        <Settings className='w-5 h-5' />
-                                    </Button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <SidebarMenu buttons={menu} />
                 </div>
             )}
 
@@ -65,24 +48,26 @@ export const Home: React.FC = () => {
                 <div className='flex items-center my-2 ml-2'>
                     <Button
                         variant='ghost'
-                        onClick={toggleSidebar}
-                        className='w-15 h-15'
-                    >
+                        onClick={toggleMenu}
+                        className='w-15 h-15'>
                         <Menu className='w-5 h-5 m-auto' />
                     </Button>
                     <input
                         type='text'
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
                         placeholder='Search chats...'
                         className='m-2 w-full h-10 px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:outline-none'
                     />
                 </div>
 
                 <div className='overflow-y-auto '>
-                    <div className='text-xs font-semibold ml-5 text-gray-400'>
-                        Your chats
-                    </div>
 
-                    <SidebarChatList users={users} />
+                    <p className='text-xs mb-4 font-semibold ml-5 text-gray-400'>
+                        Your chats
+                    </p>
+
+                    <SidebarChatList users={users} searchTerm={searchTerm} />
                 </div>
 
                 <div className='flex mt-auto mb-5'>
@@ -94,7 +79,7 @@ export const Home: React.FC = () => {
                         </div>
                     </div>
 
-                    <SignOutButton className='mr-5'/>
+                    <SignOutButton className='mr-5' />
                 </div>
             </div>
         </div>
@@ -102,3 +87,4 @@ export const Home: React.FC = () => {
 
     )
 }
+
