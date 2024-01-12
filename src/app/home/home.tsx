@@ -1,78 +1,107 @@
-import Button from '../../components/ui/button';
-import { LogOut, Menu } from 'lucide-react'
+import Button from '../../components/ui/Button';
+import { CircleUserRound, FolderPlus, LogOut, Menu, Settings, UsersRound } from 'lucide-react'
 import { useNavigate } from 'react-router-dom';
+import { Chat } from '../chat/[userid]/chat';
+import { useState } from 'react';
+import { SidebarChatList } from '../../components/SidebarChatList';
+import { User } from '../../entities/user';
+import { useAppSelector } from '../../hooks/redux-hooks';
+import { v4 as uuidv4 } from 'uuid';
+import SignOutButton from '../../components/SignOutButton';
+import SidebarMenu from '../../components/SidebarMenu';
+
 
 
 export const Home: React.FC = () => {
 
-    const navigate = useNavigate();
+    const user = useAppSelector((state) => state.user);
+    const [searchTerm, setSearchTerm] = useState('');
+    const sessionId = useAppSelector((state) => state.user.id);
+
+    const users: User[] = [
+        { id: sessionId!, username: 'self', password: '12345' },
+        { id: uuidv4().toString(), username: 'Alex Toi', password: 'qwefsdf' },
+        { id: uuidv4().toString(), username: 'Vlad', password: 'qwefsdf' },
+        { id: uuidv4().toString(), username: 'James', password: 'qwefsdf' },
+        { id: uuidv4().toString(), username: 'John Doe', password: 'qwefsdf' },
+    ];
+
+
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    const toggleMenu = () => {
+        setIsMenuOpen(!isMenuOpen);
+    };
+
+    const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
+
+    const handleChatSelection = (userId: string) => {
+        setSelectedUserId(userId);
+    };
+
+    const menu = [
+        <Button className='mt-0' variant="ghost">
+            <Settings className='w-5 h-5' />
+        </Button>,
+    ]
 
     return (
         <div className='w-full flex h-screen'>
 
-            <div className='hidden md:flex h-full w-full max-w-xs grow flex-col gap-y-5 mr-auto overflow-y-auto border-r border-gray-200 bg-white px-6'>
+            {isMenuOpen && (
+                <div className='flex flex-col border-gray-200 border-r bg-white w-20 sidebar'>
+                    <SidebarMenu buttons={menu} />
+                </div>
+            )}
 
-                <div className='flex items-center my-2'>
+            <div className='hidden md:flex flex-grow h-full w-full max-w-xs flex-col gap-y-5 border-r border-gray-200 bg-white '>
+
+                <div className='flex items-center my-2 ml-2'>
                     <Button
                         variant='ghost'
-                        className='w-15 h-15'
-                    >
+                        onClick={toggleMenu}
+                        className='w-15 h-15'>
                         <Menu className='w-5 h-5 m-auto' />
                     </Button>
                     <input
                         type='text'
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
                         placeholder='Search chats...'
                         className='m-2 w-full h-10 px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:outline-none'
                     />
                 </div>
 
-                <div className='text-xs font-semibold leading-6 text-gray-400'>
-                    Your chats
+                <div className='overflow-y-auto '>
+
+                    <p className='text-xs mb-4 font-semibold ml-5 text-gray-400'>
+                        Your chats
+                    </p>
+
+                    <SidebarChatList sessionId={sessionId!} users={users} searchTerm={searchTerm} onChatSelect={handleChatSelection} />
                 </div>
 
-                <nav className='flex flex-1 flex-col'>
-                    <ul role='list' className='flex flex-1 flex-col gap-y-7'>
-                        <nav className='flex flex-1 flex-col'>
-                            <ul role='list' className='flex flex-1 flex-col gap-y-7'>
-                                <li className='cursor-pointer'>
-                                    <div className='flex items-center gap-x-4 px-6 py-3'>
-                                        <div className='relative rounded-full h-10 w-10 bg-black'>
-                                        </div>
-                                        <div className='flex flex-col'>
-                                            <span aria-hidden='true'>Chat Name</span>
-                                            <span className='text-xs text-zinc-500' aria-hidden='true'>
-                                                Last message
-                                            </span>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </nav>
+                <div className='flex mt-auto mb-5'>
+                    <div className='flex flex-1 gap-x-4 text-sm font-semibold leading-6 text-gray-900'>
 
-                        <li className='-mx-6 mt-auto flex items-center my-1'>
-                            <div className='flex flex-1 items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-gray-900'>
-                                <div className='relative rounded-3xl h-10 w-10 bg-black'>
-                                </div>
+                        <div className='flex flex-col ml-10'>
+                            <span aria-hidden='true'>{user.id}</span>
+                            <span className='text-xs text-zinc-400' aria-hidden='true'>{user.token}</span>
+                        </div>
+                    </div>
 
-                                <span className='sr-only'>Your profile</span>
-                                <div className='flex flex-col'>
-                                    <span aria-hidden='true'>Name</span>
-                                    <span className='text-xs text-zinc-400' aria-hidden='true'>
-                                        @username
-                                    </span>
-                                </div>
-                            </div>
-
-                            <Button variant='ghost' className='h-15 w-15 mx-5 aspect-square'>
-                                <LogOut className='w-4 h-4' onClick={() => {
-                                    navigate('/')
-                                }} />
-                            </Button>
-
-                        </li>
-                    </ul>
-                </nav>
+                    <SignOutButton className='mr-5' />
+                </div>
             </div>
+
+            {selectedUserId ? (
+                <Chat userId={selectedUserId} />
+            
+            ) : null}
+
         </div>
+
+
     )
 }
+

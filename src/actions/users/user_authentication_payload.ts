@@ -1,4 +1,5 @@
-export interface IUser{
+
+export type UserAuthenticationPayload = {
     username : string,
     password : string,
 }
