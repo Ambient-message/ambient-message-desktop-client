@@ -1,16 +1,14 @@
-import { FC, useState } from "react"
-import { User } from "../entities/user"
-import React from "react"
-import { chatHrefConstructor } from "../utils/chatHrefConstructor";
+import React, {FC, useState} from "react"
+import {User} from "../entities/user"
 
 interface SidebarChatListProps {
     users: User[],
-    sessionId: string,
     searchTerm: string,
     onChatSelect: (userId: string) => void,
 }
 
-export const SidebarChatList: FC<SidebarChatListProps> = React.memo(({ sessionId, users, searchTerm, onChatSelect }) => {
+export const SidebarChatList: FC<SidebarChatListProps> = React.memo(({ users, searchTerm, onChatSelect}) => {
+    console.log('users sidebar:', users);
     const [activeChats] = useState<User[]>(users)
 
     const filteredUsers = activeChats.filter((user) =>
@@ -27,17 +25,15 @@ export const SidebarChatList: FC<SidebarChatListProps> = React.memo(({ sessionId
                                 <nav className='flex flex-1 flex-col'>
                                     <ul role='list' className='flex flex-1 flex-col gap-y-7 hover:*:bg-gray-200'>
                                         <li className='cursor-pointer'>
-                                            <a href={`/chat/${chatHrefConstructor(
-                                                sessionId,
-                                                user.id
-                                            )}`} className='flex items-center gap-x-4 py-3'
-                                                onClick={() => onChatSelect(user.id)}>
+                                            <div className='flex items-center gap-x-4 py-3'
+                                                 onClick={() => onChatSelect(user.id)}>
                                                 <div className='relative rounded-full h-10 w-10 ml-5 bg-black'>
                                                 </div>
                                                 <div className='flex flex-col '>
                                                     <span aria-hidden='true'>{user.username}</span>
+                                                    <span aria-hidden='true'>{user.id}</span>
                                                 </div>
-                                            </a>
+                                            </div>
                                         </li>
                                     </ul>
                                 </nav>

@@ -1,13 +1,12 @@
-import { useState } from "react";
+import React, {useState} from "react";
 import Button from "../../../components/ui/Button";
-import { Paperclip, SendHorizonal, Smile } from "lucide-react";
+import {Paperclip, SendHorizonal, Smile} from "lucide-react";
 
 interface ChatProps {
-    userId : string,
+    userId: string,
 }
 
 export const Chat: React.FC<ChatProps> = ({userId}) => {
-
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     const toggleSidebar = () => {
@@ -42,13 +41,13 @@ export const Chat: React.FC<ChatProps> = ({userId}) => {
                         placeholder='Type your message...'
                         className='flex-1 resize-y align-bottom h-11 px-5 rounded-lg bg-gray-200 border focus:outline-none'
                     />
-                    <Button variant="ghost" 
-                    onClick={toggleSidebar}
-                    className="ml-2 w-15 h-15 ">
+                    <Button variant="ghost"
+                            onClick={toggleSidebar}
+                            className="ml-2 w-15 h-15 ">
                         <Smile className="w-5 h-5"></Smile>
                     </Button>
                     <Button variant="ghost"
-                        className="ml-2 w-15 h-15 ">
+                            className="ml-2 w-15 h-15 ">
                         <SendHorizonal className="w-5 h-5"></SendHorizonal>
                     </Button>
                 </div>
