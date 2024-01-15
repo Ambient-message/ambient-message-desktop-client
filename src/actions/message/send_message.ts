@@ -1,12 +1,11 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import {OpenChatPayLoad} from "./open_chat_payload.ts";
 import axiosInstance from "../../utils/axios_instance.ts";
-import {Message} from "../../entities/message.ts";
+import {SendMessagePayLoad} from "./send_message_pay_load.ts";
 
-export const openChatAsync = createAsyncThunk("chat/find",
-    async (chatPayload: OpenChatPayLoad) => {
-        const response = await axiosInstance.post<Message[]>("/chat/find",
-            chatPayload.user_id,
+export const sendMessageAsync = createAsyncThunk("message/send",
+    async (chatPayload: SendMessagePayLoad) => {
+        const response = await axiosInstance.post("/message/send",
+            {chat_id: chatPayload.chat_id, text: chatPayload.text},
             {
                 headers: {
                     "Authorization": `Bearer ${chatPayload.user_token}`,

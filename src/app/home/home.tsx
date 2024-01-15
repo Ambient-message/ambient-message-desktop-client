@@ -10,6 +10,7 @@ import {Chat} from "../chat/[userid]/chat.tsx";
 import {openChatAsync} from "../../actions/chat/open_chat.ts";
 import {EmptyChat} from "../chat/emptyChat.tsx";
 import {getAllUsersAsync} from "../../actions/users/all_users.ts";
+import {userProfileAsync} from "../../actions/users/user_profile.ts";
 
 
 export const Home: React.FC = () => {
@@ -17,7 +18,7 @@ export const Home: React.FC = () => {
 
     const user = useAppSelector((state) => state.user);
     const fetchedUsers = useAppSelector((state) => state.user.users);
-    const sessionId = useAppSelector((state) => state.user.id);
+    //const sessionId = useAppSelector((state) => state.user.id);
 
     const [searchTerm, setSearchTerm] = useState('');
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -30,6 +31,7 @@ export const Home: React.FC = () => {
         const fetchData = async () => {
             try {
                 await dispatch(getAllUsersAsync());
+                await dispatch(userProfileAsync(user.token!));
             } catch (e) {
                 console.error('Error fetching users:', e);
             }
@@ -115,8 +117,8 @@ export const Home: React.FC = () => {
                     <div className='flex flex-1 gap-x-4 text-sm font-semibold leading-6 text-gray-900'>
 
                         <div className='flex flex-col ml-10'>
-                            <span aria-hidden='true'>{user.id}</span>
-                            <span className='text-xs text-zinc-400' aria-hidden='true'>{user.token}</span>
+                            <span aria-hidden='true'>{user.username}</span>
+                            {/*<span className='text-xs text-zinc-400' aria-hidden='true'>{user.token}</span>*/}
                         </div>
                     </div>
 
@@ -124,7 +126,7 @@ export const Home: React.FC = () => {
                 </div>
             </div>
 
-            {chatId ? <Chat userId={chatId}/>
+            {chatId ? <Chat chatId={chatId}/>
                 : <EmptyChat userId={selectedUserId!} onChatCreate={handleChatOpened}/>}
 
         </div>
