@@ -2,10 +2,10 @@ import React, {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import Button from "../../components/ui/Button";
 import {useAppDispatch} from '../../hooks/redux-hooks';
-import {loginUserAsync} from '../../actions/users/user_authentication';
 import {toast} from 'react-hot-toast'
+import {registUserAsync} from "../../actions/users/user_registration.ts";
 
-export const Login: React.FC = () => {
+export const Singup: React.FC = () => {
 
     const [username, setUsername] = useState('SuperUser220');
     const [password, setPassword] = useState('dsdsd');
@@ -34,12 +34,12 @@ export const Login: React.FC = () => {
 
         try {
 
-            await dispatch(loginUserAsync({username: username, password: password})).unwrap();
-            toast.success(`Welcome back, ${username}`)
+            await dispatch(registUserAsync({username: username, password: password})).unwrap();
+            toast.success(`Welcome, ${username}`)
             navigate('/home')
 
         } catch (e) {
-            toast.error('Something went wrong with your login or password.')
+            toast.error('Something went wrong with your login.')
         } finally {
             setIsLoading(false)
         }
@@ -73,8 +73,8 @@ export const Login: React.FC = () => {
                     </svg>
 
                     <div className="flex flex-col items-center justify-center">
-                        <h1 className="text-xl md:text-2xl font-bold leading-tight mt-10">Welcome back!</h1>
-                        <h2 className="mt-2 font-medium">Login to your account</h2>
+                        <h1 className="text-xl md:text-2xl font-bold leading-tight mt-10">Welcome!</h1>
+                        <h2 className="mt-2 font-medium">Create your own account</h2>
                     </div>
 
                     <form className="mt-6" onSubmit={handleLogin} action="#" method="POST">
@@ -93,18 +93,18 @@ export const Login: React.FC = () => {
                         </div>
 
                         <Button isLoading={isLoading} type="submit" className="w-full h-full block bg-black hover:bg-black text-white font-semibold rounded-lg
-                    px-4 py-3 mt-6">Log In</Button>
+                    px-4 py-3 mt-6">Sing Up</Button>
 
                     </form>
 
                     <div className="flex flex-col items-center justify-center">
 
                         <p className="mt-5">
-                            Need an account?
+                            Already an account?
                             <a href="#" onClick={() => {
-                                navigate('/singUp')
+                                navigate('/')
                             }} className="text-black underline mx-1 font-semibold">
-                                Create an account
+                                Login now!
                             </a>
                         </p>
 

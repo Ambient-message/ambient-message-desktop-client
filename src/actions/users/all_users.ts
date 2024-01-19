@@ -6,9 +6,11 @@ import {User} from "../../entities/user.ts";
 export const getAllUsersAsync = createAsyncThunk("user/get_all",
     async () => {
         const response =
-            await axiosInstance.get<ApiUser[]>("/user/get_all", {});
-        return response.data.map(apiUser => ({
-            id: apiUser.id,
-            username: apiUser.username,
-        })) as User[];
+            await axiosInstance.get<ApiUser[]>("/user/get_all",
+                {})
+                    console.log(response);
+                    return response.data.map(apiUser => ({
+                        id: apiUser.id,
+                        username: apiUser.username,
+                    })) as User[];
     });

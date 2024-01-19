@@ -35,14 +35,13 @@ export const Chat: React.FC<ChatProps> = ({chatId}) => {
         }
     };
 
-    const [messages, setMessages]
-        = useState<Message[]>([]);
+    const [messages, setMessages] = useState<Message[]>([]);
 
     const fetchMessages = async () => {
         try {
             const response = await dispatch(
                 getMessagesAsync({ user_token: user.token!, chat_id: chatId }));
-            setMessages(response.payload); // Установка нового списка сообщений
+            setMessages(response.payload);
         } catch (e) {
             console.error("Something went wrong with fetching messages:", e);
         }
@@ -56,7 +55,7 @@ export const Chat: React.FC<ChatProps> = ({chatId}) => {
         }, 1000);
 
         return () => clearInterval(intervalId);
-    }, []);
+    }, [chatId]);
 
 
     const toggleSidebar = () => {

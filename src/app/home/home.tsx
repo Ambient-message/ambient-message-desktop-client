@@ -17,7 +17,6 @@ export const Home: React.FC = () => {
     const dispatch = useAppDispatch();
 
     const user = useAppSelector((state) => state.user);
-    const fetchedUsers = useAppSelector((state) => state.user.users);
     //const sessionId = useAppSelector((state) => state.user.id);
 
     const [searchTerm, setSearchTerm] = useState('');
@@ -25,12 +24,11 @@ export const Home: React.FC = () => {
     const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
     const [chatId, setChatId] = useState(null);
     const [users, setUsers] = useState<User[]>([]);
-
+    const [chatListKey, setChatListKey] = useState(0);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                await dispatch(getAllUsersAsync());
                 await dispatch(userProfileAsync(user.token!));
             } catch (e) {
                 console.error('Error fetching users:', e);
@@ -40,16 +38,33 @@ export const Home: React.FC = () => {
         fetchData();
     }, [dispatch]);
 
+    const fetchUsers = async () => {
+        try {
+            const response = await dispatch(
+                getAllUsersAsync());
+            const usersData = (response.payload as User[]).filter(u => u.id !== user.id);
+            setUsers(usersData);
+            setChatListKey((prevKey) => prevKey + 1);
+        } catch (e) {
+            console.error("Something went wrong with fetching messages:", e);
+        }
+    };
+
+    useEffect(() => {
+        fetchUsers();
+
+        const intervalId = setInterval(async () => {
+            fetchUsers();
+        }, 3000);
+
+        return () => clearInterval(intervalId);
+    }, []);
+
     useEffect(() => {
         if (selectedUserId) {
             handleChatOpened();
         }
     }, [selectedUserId]);
-
-    useEffect(() => {
-        console.log('users:', fetchedUsers);
-        setUsers(fetchedUsers!);
-    }, [fetchedUsers]);
 
 
     const toggleMenu = () => {
@@ -62,8 +77,10 @@ export const Home: React.FC = () => {
 
     const handleChatOpened = async () => {
         try {
-            const id = await dispatch(openChatAsync({user_token: user.token!, user_id: selectedUserId!})).unwrap();
-            setChatId(id);
+            if (selectedUserId) {
+                const id = await dispatch(openChatAsync({user_token: user.token!, user_id: selectedUserId})).unwrap();
+                setChatId(id);
+            }
         } catch (e) {
             console.error('Something went wrong with opening the chat:', e);
         }
@@ -109,8 +126,8 @@ export const Home: React.FC = () => {
                         Your chats
                     </p>
 
-                    {users.length > 0 ? <SidebarChatList users={users} searchTerm={searchTerm}
-                                     onChatSelect={handleChatSelection}/> : null}
+                    <SidebarChatList key={chatListKey} users={users} searchTerm={searchTerm}
+                                     onChatSelect={handleChatSelection}/>
                 </div>
 
                 <div className='flex mt-auto mb-5'>
