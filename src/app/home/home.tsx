@@ -1,47 +1,94 @@
 import Button from '../../components/ui/Button';
-import { CircleUserRound, FolderPlus, LogOut, Menu, Settings, UsersRound } from 'lucide-react'
-import { useNavigate } from 'react-router-dom';
-import { Chat } from '../chat/[userid]/chat';
-import { useState } from 'react';
-import { SidebarChatList } from '../../components/SidebarChatList';
-import { User } from '../../entities/user';
-import { useAppSelector } from '../../hooks/redux-hooks';
-import { v4 as uuidv4 } from 'uuid';
+import {Menu, Settings} from 'lucide-react'
+import React, {useEffect, useState} from 'react';
+import {SidebarChatList} from '../../components/SidebarChatList';
+import {User} from '../../entities/user';
+import {useAppDispatch, useAppSelector} from '../../hooks/redux-hooks';
 import SignOutButton from '../../components/SignOutButton';
 import SidebarMenu from '../../components/SidebarMenu';
-
+import {Chat} from "../chat/[userid]/chat.tsx";
+import {openChatAsync} from "../../actions/chat/open_chat.ts";
+import {EmptyChat} from "../chat/emptyChat.tsx";
+import {getAllUsersAsync} from "../../actions/users/all_users.ts";
+import {userProfileAsync} from "../../actions/users/user_profile.ts";
 
 
 export const Home: React.FC = () => {
+    const dispatch = useAppDispatch();
 
     const user = useAppSelector((state) => state.user);
+    //const sessionId = useAppSelector((state) => state.user.id);
+
     const [searchTerm, setSearchTerm] = useState('');
-    const sessionId = useAppSelector((state) => state.user.id);
-
-    const users: User[] = [
-        { id: sessionId!, username: 'self', password: '12345' },
-        { id: uuidv4().toString(), username: 'Alex Toi', password: 'qwefsdf' },
-        { id: uuidv4().toString(), username: 'Vlad', password: 'qwefsdf' },
-        { id: uuidv4().toString(), username: 'James', password: 'qwefsdf' },
-        { id: uuidv4().toString(), username: 'John Doe', password: 'qwefsdf' },
-    ];
-
-
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
+    const [chatId, setChatId] = useState(null);
+    const [users, setUsers] = useState<User[]>([]);
+    const [chatListKey, setChatListKey] = useState(0);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                await dispatch(userProfileAsync(user.token!));
+            } catch (e) {
+                console.error('Error fetching users:', e);
+            }
+        };
+
+        fetchData();
+    }, [dispatch]);
+
+    const fetchUsers = async () => {
+        try {
+            const response = await dispatch(
+                getAllUsersAsync());
+            const usersData = (response.payload as User[]).filter(u => u.id !== user.id);
+            setUsers(usersData);
+            setChatListKey((prevKey) => prevKey + 1);
+        } catch (e) {
+            console.error("Something went wrong with fetching messages:", e);
+        }
+    };
+
+    useEffect(() => {
+        fetchUsers();
+
+        const intervalId = setInterval(async () => {
+            fetchUsers();
+        }, 3000);
+
+        return () => clearInterval(intervalId);
+    }, []);
+
+    useEffect(() => {
+        if (selectedUserId) {
+            handleChatOpened();
+        }
+    }, [selectedUserId]);
+
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };
 
-    const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
-
     const handleChatSelection = (userId: string) => {
         setSelectedUserId(userId);
     };
 
+    const handleChatOpened = async () => {
+        try {
+            if (selectedUserId) {
+                const id = await dispatch(openChatAsync({user_token: user.token!, user_id: selectedUserId})).unwrap();
+                setChatId(id);
+            }
+        } catch (e) {
+            console.error('Something went wrong with opening the chat:', e);
+        }
+    };
+
     const menu = [
         <Button className='mt-0' variant="ghost">
-            <Settings className='w-5 h-5' />
+            <Settings className='w-5 h-5'/>
         </Button>,
     ]
 
@@ -50,18 +97,19 @@ export const Home: React.FC = () => {
 
             {isMenuOpen && (
                 <div className='flex flex-col border-gray-200 border-r bg-white w-20 sidebar'>
-                    <SidebarMenu buttons={menu} />
+                    <SidebarMenu buttons={menu}/>
                 </div>
             )}
 
-            <div className='hidden md:flex flex-grow h-full w-full max-w-xs flex-col gap-y-5 border-r border-gray-200 bg-white '>
+            <div
+                className='hidden md:flex flex-grow h-full w-full max-w-xs flex-col gap-y-5 border-r border-gray-200 bg-white '>
 
                 <div className='flex items-center my-2 ml-2'>
                     <Button
                         variant='ghost'
                         onClick={toggleMenu}
                         className='w-15 h-15'>
-                        <Menu className='w-5 h-5 m-auto' />
+                        <Menu className='w-5 h-5 m-auto'/>
                     </Button>
                     <input
                         type='text'
@@ -78,26 +126,25 @@ export const Home: React.FC = () => {
                         Your chats
                     </p>
 
-                    <SidebarChatList sessionId={sessionId!} users={users} searchTerm={searchTerm} onChatSelect={handleChatSelection} />
+                    <SidebarChatList key={chatListKey} users={users} searchTerm={searchTerm}
+                                     onChatSelect={handleChatSelection}/>
                 </div>
 
                 <div className='flex mt-auto mb-5'>
                     <div className='flex flex-1 gap-x-4 text-sm font-semibold leading-6 text-gray-900'>
 
                         <div className='flex flex-col ml-10'>
-                            <span aria-hidden='true'>{user.id}</span>
-                            <span className='text-xs text-zinc-400' aria-hidden='true'>{user.token}</span>
+                            <span aria-hidden='true'>{user.username}</span>
+                            {/*<span className='text-xs text-zinc-400' aria-hidden='true'>{user.token}</span>*/}
                         </div>
                     </div>
 
-                    <SignOutButton className='mr-5' />
+                    <SignOutButton className='mr-5'/>
                 </div>
             </div>
 
-            {selectedUserId ? (
-                <Chat userId={selectedUserId} />
-            
-            ) : null}
+            {chatId ? <Chat chatId={chatId}/>
+                : <EmptyChat userId={selectedUserId!} onChatCreate={handleChatOpened}/>}
 
         </div>
 

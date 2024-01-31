@@ -1,6 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { loginUserAsync } from "../actions/users/user_authentication";
-import { AuthState } from "../states/auth_state";
+import {createSlice} from "@reduxjs/toolkit";
+import {loginUserAsync} from "../actions/users/user_authentication";
+import {AuthState} from "../states/auth_state";
 
 const initialState: AuthState = {
     status: null,
